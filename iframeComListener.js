@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const iframe = document.getElementById("iframe");
   if (!iframe) return console.warn('No iFrame with ID of "iframe"')
 
@@ -12,6 +12,13 @@ document.addEventListener('DOMContentLoaded', function() {
       case "location":
         window.scroll(0, iframe.offsetTop);
         break;
+      case "redirect":
+        const redirectUrl = e.data.redirectUrl;
+        if (!redirectUrl) {
+          break;
+        }
+        window.location.replace(redirectUrl)
+        break;
       case "settings":
         if (e.data.data.state === "initial") {
           setInitialSettings(iframe, e.data);
@@ -20,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   const setInitialSettings = (
-    iframe,
-    e
+      iframe,
+      e
   ) => {
     const background = iframe.getAttribute("data-background-color");
     if (background) {
